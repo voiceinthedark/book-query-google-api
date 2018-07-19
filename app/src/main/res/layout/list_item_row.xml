@@ -1,17 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="@dimen/row_height">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/row_height"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/row_book_title"
+    <!-- layout inner horizontal -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="the title of the book"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/row_item_margin"
+            android:layout_marginEnd="@dimen/row_item_margin">
 
+            <ImageView
+                android:id="@+id/row_book_img"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.75"
+                 />
 
+            <android.support.v7.widget.AppCompatRatingBar
+                android:id="@+id/row_book_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stepSize="0.1"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.75"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/row_book_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                tools:text="the title of the book" />
+            <TextView
+                android:id="@+id/row_book_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                tools:text="subtitle goes here"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

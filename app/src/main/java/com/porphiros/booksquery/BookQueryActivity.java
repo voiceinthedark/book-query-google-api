@@ -27,7 +27,8 @@ public class BookQueryActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         //setup the adapter
         mBookList = BookQueryUtils.getBooksList();
-        mRecyclerView.setAdapter(new BooksAdapter(mBookList));
+        BooksAdapter booksAdapter = new BooksAdapter(this, mBookList);
+        mRecyclerView.setAdapter(booksAdapter);
 
         for(Book book : mBookList){
             Log.i(TAG,  book.toString());

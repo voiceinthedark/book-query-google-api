@@ -102,8 +102,8 @@ public class Book {
 
         /**
          * set the subtitle of the book
-         * @param subtitle
-         * @return
+         * @param subtitle the subtitle of the book
+         * @return reference to this builder
          */
         public Builder subtitle(String subtitle){
             this.mSubtitle = subtitle;
@@ -273,6 +273,10 @@ public class Book {
      */
     public String getLanguage() {
         return mLanguage;
+    }
+
+    public double getRating() {
+        return mRating;
     }
 
     @Override
