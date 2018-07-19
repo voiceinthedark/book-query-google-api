@@ -33,6 +33,8 @@ public class Book {
     private String mPreviewLink;
     //Book language
     private String mLanguage;
+    //Book rating
+    private double mRating;
 
     /**
      * private class to associate the Book fields from the builder set fields
@@ -52,6 +54,7 @@ public class Book {
         mThumbnailSmall = builder.mThumbnailSmall;
         mPreviewLink = builder.mPreviewLink;
         mLanguage = builder.mLanguage;
+        mRating = builder.mRating;
     }
 
     public static class Builder{ /*Start of inner builder class*/
@@ -84,6 +87,8 @@ public class Book {
         private String mPreviewLink = "";
         //Book language
         private String mLanguage = "en";
+        //Book rating
+        private double mRating = 0.0;
 
         /**
          * Required fields of the builder, the title and the description
@@ -152,6 +157,11 @@ public class Book {
 
         public Builder language(String language){
             mLanguage = language;
+            return this;
+        }
+
+        public Builder rating(double rating){
+            mRating = rating;
             return this;
         }
 
