@@ -1,5 +1,7 @@
 package com.porphiros.booksquery;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class BookQueryUtils {
+
+    private static final String TAG = "bookquery";
 
     private static final String DUMMY_JSON =
             "{\n" +
@@ -466,27 +470,69 @@ public final class BookQueryUtils {
                 //get the object at location i
                 JSONObject item = itemsArray.getJSONObject(i);
                 //get the googleid
-                String googleId = item.optString("id");
+                String googleId = item.optString("id", "");
+
+                Log.i(TAG, "googleid: " + googleId);
 
                 //get the object called volume info
                 JSONObject volumeInfo = item.getJSONObject("volumeInfo");
                 String title = volumeInfo.getString("title");
-                //TODO: get subtitle
-                //TODO: get authors array
-                //TODO: get publisher
-                //TODO: get publishing date
+                //get subtitle
+                String subtitle = volumeInfo.optString("subtitle", "");
+                //get authors array
+                List<String> authors = new ArrayList<>();
+                JSONArray authorsArray = volumeInfo.optJSONArray("authors");
+                for (int j = 0; j < authorsArray.length(); j++) {
+                    String author = authorsArray.optString(j);
+                    authors.add(author);
+
+                    Log.i(TAG, "author: " + author);
+                }
+                //get publisher
+                String publisher = volumeInfo.optString("publisher", "");
+                //get publishing date
+                String date = volumeInfo.optString("publishedDate", "");
                 //get description
                 String description = volumeInfo.getString("description");
-                //TODO: get ISBN object
-                //TODO: get pageCount
-                //TODO: get categories array
-                //TODO: get averageRating
-                //TODO: get imageLinks object , get thumbnail string
-                //TODO: get language
-                //TODO: get previewLink
+                //get ISBN array
+                JSONArray isbnArray = volumeInfo.getJSONArray("industryIdentifiers");
+                JSONObject isbnObj = isbnArray.getJSONObject(0);
+                String isbn = isbnObj.optString("identifier", "1111");
+                //get pageCount
+                int pages = volumeInfo.optInt("pageCount", 0);
+                //get categories array
+                JSONArray categoriesArray = volumeInfo.getJSONArray("categories");
+                List<String> categories = new ArrayList<>();
+                for (int j = 0; j < categoriesArray.length(); j++) {
+                    String category = categoriesArray.optString(j);
+                    categories.add(category);
+
+                    Log.i(TAG, "category: " + category);
+                }
+                //get averageRating
+                double rating = volumeInfo.optDouble("averageRating", 0.0);
+                //get imageLinks object , get thumbnail string
+                JSONObject imagesObject = volumeInfo.getJSONObject("imageLinks");
+                String imgUrl = imagesObject.optString("smallThumbnail", "");
+                //get language
+                String language = volumeInfo.optString("language", "en");
+                //get previewLink
+                String previewLink = volumeInfo.optString("previewLink", "");
 
                 //Add the data to the book object
-                Book book = new Book.Builder(title, description).build();
+                Book book = new Book.Builder(title, description)
+                        .googleId(googleId)
+                        .isbn(isbn)
+                        .subtitle(subtitle)
+                        .publishedOn(date)
+                        .rating(rating)
+                        .thumbnail(imgUrl)
+                        .language(language)
+                        .publisher(publisher)
+                        .pages(pages)
+                        .url(previewLink)
+                        .authors(authors)
+                        .categories(categories).build();
                 //add the book to the list
                 bookList.add(book);
             }

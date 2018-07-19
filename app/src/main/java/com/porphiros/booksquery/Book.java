@@ -275,4 +275,23 @@ public class Book {
         return mLanguage;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" + "\n" +
+                "mTitle='" + mTitle + '\'' + "\n" +
+                ", mSubtitle='" + mSubtitle + '\'' + "\n" +
+                ", mAuthors=" + mAuthors + "\n" +
+                ", mGoogleID='" + mGoogleID + '\'' + "\n" +
+                ", mPublisher='" + mPublisher + '\'' + "\n" +
+                ", mPublishedDate='" + mPublishedDate + '\'' + "\n" +
+                ", mDescription='" + mDescription + '\'' + "\n" +
+                ", mISBN='" + mISBN + '\'' + "\n" +
+                ", mPageCount=" + mPageCount + "\n" +
+                ", mCategories=" + mCategories + "\n" +
+                ", mThumbnailSmall='" + mThumbnailSmall + '\'' + "\n" +
+                ", mPreviewLink='" + mPreviewLink + '\'' + "\n" +
+                ", mLanguage='" + mLanguage + '\'' + "\n" +
+                ", mRating=" + mRating + "\n" +
+                '}';
+    }
 }
