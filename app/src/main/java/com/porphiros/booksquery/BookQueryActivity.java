@@ -2,6 +2,8 @@ package com.porphiros.booksquery;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,9 +27,13 @@ public class BookQueryActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_list);
         //Set the layout manager as a linearLayout
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
         //setup the adapter
         mBookList = BookQueryUtils.getBooksList();
         BooksAdapter booksAdapter = new BooksAdapter(this, mBookList);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(booksAdapter);
 
         for(Book book : mBookList){

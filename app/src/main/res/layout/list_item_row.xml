@@ -39,20 +39,33 @@
             android:layout_weight="0.75"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/row_item_margin">
 
             <TextView
                 android:id="@+id/row_book_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/cantata_one"
+                android:gravity="center|bottom"
+                android:maxLines="2"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryText"
                 tools:text="the title of the book" />
+
             <TextView
                 android:id="@+id/row_book_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                tools:text="subtitle goes here"/>
+                android:layout_weight="1"
+                android:fontFamily="@font/caudex_italic"
+                android:gravity="center|top"
+                android:maxLines="2"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="12sp"
+                tools:text="subtitle goes here" />
         </LinearLayout>
 
     </LinearLayout>
