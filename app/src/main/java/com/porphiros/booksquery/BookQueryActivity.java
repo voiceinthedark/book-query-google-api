@@ -1,6 +1,9 @@
 package com.porphiros.booksquery;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,10 +14,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +36,16 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
     //default empty query
     private String mQuery = "";
     private ProgressBar mProgressBar;
+    private TextView mEmptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_query);
+
+        //setup the empty view
+        mEmptyView = findViewById(R.id.empty_view);
+        mEmptyView.setVisibility(View.GONE);
 
         //setup the progress bar
         mProgressBar = findViewById(R.id.query_progress_bar);
@@ -55,12 +65,29 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
         mRecyclerView.setAdapter(mBooksAdapter);
         mRecyclerView.setVisibility(View.GONE);
 
+/**
+ * Check whether there is internet connection
+ */
+        //Get the connectivity manager
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //get the NetworkInfo from the connectivity manager
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
+        //if there is a connection then start loading data, make sure that the null check
+        //comes before the boolean check, otherwise the app will crash with null pointer exception
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+        /*
+          Get the support load manager and initialize the loader.
+          the initLoader takes three arguments an id; a {@link Bundle} argument
+          and a {@link android.support.v4.app.LoaderManager.LoaderCallbacks}
+         */
+            getSupportLoaderManager().initLoader(LOADER_ID_WEB_QUERY, null, this);
+        } else {
+            mEmptyView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
 
-
-
-        //setup the loader
-        getSupportLoaderManager().initLoader(LOADER_ID_WEB_QUERY, null, this);
+        }
     }
 
 
@@ -82,6 +109,7 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoaderReset(@NonNull android.support.v4.content.Loader<List<Book>> loader) {
+        Log.i(TAG, "Loader reset ");
         //setup with empty adapter
         mBooksAdapter = new BooksAdapter(this, new ArrayList<Book>());
     }

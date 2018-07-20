@@ -1,6 +1,7 @@
 package com.porphiros.booksquery;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -112,7 +113,11 @@ public class Book implements Serializable {
         }
 
         public Builder authors(List<String> authors){
-            this.mAuthors = authors;
+            if(authors != null) {
+                this.mAuthors = authors;
+            }else{
+                mAuthors = new ArrayList<>();
+            }
             return this;
         }
 
@@ -142,7 +147,10 @@ public class Book implements Serializable {
         }
 
         public Builder categories(List<String> categories){
-            mCategories = categories;
+            if(categories != null) {
+                mCategories = categories;
+            }
+            else mCategories = new ArrayList<>();
             return this;
         }
 

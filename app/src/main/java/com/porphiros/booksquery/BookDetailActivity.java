@@ -3,8 +3,10 @@ package com.porphiros.booksquery;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,6 +64,9 @@ public class BookDetailActivity extends AppCompatActivity {
                 .error(R.drawable.no_image)
                 .into(mImage);
 
+        //set the title of the activity as the book name
+        setTitle(mBook.getTitle());
+
 
     }
 
@@ -70,4 +75,6 @@ public class BookDetailActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_BOOK, book);
         return intent;
     }
+
+
 }

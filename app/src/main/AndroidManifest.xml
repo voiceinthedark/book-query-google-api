@@ -4,6 +4,7 @@
 
     <!-- Permission to access the internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Access network state to check whether an internet connection is available-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -26,7 +27,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".BookDetailActivity"/>
+        <activity android:name=".BookDetailActivity">
+        </activity>
+
     </application>
 
 </manifest>
