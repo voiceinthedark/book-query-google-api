@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +30,16 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
     private BooksAdapter mBooksAdapter;
     //default empty query
     private String mQuery = "";
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_query);
+
+        //setup the progress bar
+        mProgressBar = findViewById(R.id.query_progress_bar);
+        mProgressBar.setIndeterminate(true);
 
         //get a reference to the recycler view
         mRecyclerView = findViewById(R.id.recycler_list);
@@ -46,6 +53,9 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //attach the adapter to the recyclerview
         mRecyclerView.setAdapter(mBooksAdapter);
+        mRecyclerView.setVisibility(View.GONE);
+
+
 
         //setup the loader
         getSupportLoaderManager().initLoader(LOADER_ID_WEB_QUERY, null, this);
@@ -61,6 +71,9 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(@NonNull android.support.v4.content.Loader<List<Book>> loader, List<Book> data) {
+        //when loading data is done, hide progress indicator and show the recycler view
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
         //Update UI by updating the recyler view adapter with the new data
         mBooksAdapter.updateAdapterData(data);
     }
@@ -86,6 +99,10 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                //when the user queries data hide the recycler view and show a progress indicator
+                mProgressBar.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+
                 //set the query to the user submission after encoding it
                 mQuery = BookQueryUtils.encodeUrl(query);
                 //restart the loader to make sure the data gets loaded from the web api

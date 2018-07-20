@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
@@ -59,7 +58,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
         Log.i(TAG, "book thumbnail: " + book.getThumbnailSmall());
 
 
-
         holder.mSubtitle.setText(book.getSubtitle());
 
     }
@@ -67,6 +65,16 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
     @Override
     public int getItemCount() {
         return mBooks.size();
+    }
+
+    /**
+     * helper method to be called once {@link android.content.AsyncTaskLoader} is finished loading
+     *
+     * @param data the data received from the background loader
+     */
+    public void updateAdapterData(List<Book> data) {
+        mBooks = data;
+        notifyDataSetChanged();
     }
 
     public class BookHolder extends RecyclerView.ViewHolder {
@@ -83,15 +91,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
             mThumbnail = itemView.findViewById(R.id.row_book_img);
             mSubtitle = itemView.findViewById(R.id.row_book_subtitle);
         }
-    }
-
-    /**
-     * helper method to be called once {@link android.content.AsyncTaskLoader} is finished loading
-     * @param data the data received from the background loader
-     */
-    public void updateAdapterData(List<Book> data){
-        mBooks = data;
-        notifyDataSetChanged();
     }
 
 

@@ -2,7 +2,6 @@ package com.porphiros.booksquery;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,23 +33,25 @@ public final class BookQueryUtils {
     /**
      * main method of the {@link BookQueryUtils} class, that will extract a {@link Book} objects
      * {@link List}
+     *
      * @param webAddress the webAddress to be queried
      * @return a {@link List} of {@link Book} objects
      */
-    public static List<Book> getBooksList(String webAddress){
+    public static List<Book> getBooksList(String webAddress) {
         return extractBooksFromJSON(webAddress);
     }
 
     /**
      * helper method to parse the JSON response received
+     *
      * @param webAddress the JSON response
      * @return List<Book> a list of books
      */
-    private static List<Book> extractBooksFromJSON(String webAddress){
+    private static List<Book> extractBooksFromJSON(String webAddress) {
         //setup an empty book list
         List<Book> bookList = new ArrayList<>();
         //if response was empty return an empty booklist
-        if(TextUtils.isEmpty(webAddress)){
+        if (TextUtils.isEmpty(webAddress)) {
             return bookList;
         }
 
@@ -61,7 +62,7 @@ public final class BookQueryUtils {
         String jsonString = makeHttpConnection(url);
 
         //if the jsonString was empty return empty booklist
-        if(TextUtils.isEmpty(jsonString)){
+        if (TextUtils.isEmpty(jsonString)) {
             return bookList;
         }
 
@@ -73,7 +74,7 @@ public final class BookQueryUtils {
             //find the items array
             JSONArray itemsArray = root.getJSONArray("items");
             //check for empty items list
-            if(itemsArray == null){
+            if (itemsArray == null) {
                 return bookList;
             }
             //loop over the array items
@@ -82,8 +83,6 @@ public final class BookQueryUtils {
                 JSONObject item = itemsArray.getJSONObject(i);
                 //get the googleid
                 String googleId = item.optString("id", "");
-
-                Log.i(TAG, "googleid: " + googleId);
 
                 //get the object called volume info
                 JSONObject volumeInfo = item.getJSONObject("volumeInfo");
@@ -94,12 +93,10 @@ public final class BookQueryUtils {
                 List<String> authors = new ArrayList<>();
                 JSONArray authorsArray = volumeInfo.optJSONArray("authors");
                 //some books are missing authors names!
-                if(authorsArray != null) {
+                if (authorsArray != null) {
                     for (int j = 0; j < authorsArray.length(); j++) {
                         String author = authorsArray.optString(j);
                         authors.add(author);
-
-                        Log.i(TAG, "author: " + author);
                     }
                 }
                 //get publisher
@@ -111,7 +108,7 @@ public final class BookQueryUtils {
                 //get ISBN array
                 JSONArray isbnArray = volumeInfo.optJSONArray("industryIdentifiers");
                 String isbn = "";
-                if(isbnArray != null) {
+                if (isbnArray != null) {
                     JSONObject isbnObj = isbnArray.optJSONObject(0);
                     isbn = isbnObj.optString("identifier", "1111");
                 }
@@ -121,12 +118,10 @@ public final class BookQueryUtils {
                 JSONArray categoriesArray = volumeInfo.optJSONArray("categories");
                 List<String> categories = new ArrayList<>();
                 //some categories are missing from the api
-                if(categoriesArray != null) {
+                if (categoriesArray != null) {
                     for (int j = 0; j < categoriesArray.length(); j++) {
                         String category = categoriesArray.optString(j);
                         categories.add(category);
-
-                        Log.i(TAG, "category: " + category);
                     }
                 }
                 //get averageRating
@@ -134,7 +129,7 @@ public final class BookQueryUtils {
                 //get imageLinks object , get thumbnail string
                 JSONObject imagesObject = volumeInfo.optJSONObject("imageLinks");
                 String imgUrl = "";
-                if(imagesObject != null) {
+                if (imagesObject != null) {
                     imgUrl = imagesObject.optString("smallThumbnail", "");
                 }
                 //get language
@@ -170,12 +165,13 @@ public final class BookQueryUtils {
 
     /**
      * helper method tho create a URL from a string
+     *
      * @param response the response received from the Google book API
      * @return a formatted URL
      */
     @Nullable
-    private static URL createURL(String response)  {
-        if(TextUtils.isEmpty(response)){
+    private static URL createURL(String response) {
+        if (TextUtils.isEmpty(response)) {
             return null;
         }
         URL url = null;
@@ -190,14 +186,15 @@ public final class BookQueryUtils {
     /**
      * Make an {@link HttpURLConnection} to the url received from the createURL method and receive an
      * {@link InputStream} containing the binary data of our response
+     *
      * @param url the {@link URL} object containing the web API address
      * @return a formatted String of JSON
      */
-    private static String makeHttpConnection(URL url){
-        if(url == null){
+    private static String makeHttpConnection(URL url) {
+        if (url == null) {
             return "";
         }
-        HttpURLConnection urlConnection= null;
+        HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         String parsedResponse = "";
 
@@ -208,7 +205,7 @@ public final class BookQueryUtils {
             urlConnection.setReadTimeout(10000);
             urlConnection.connect();
             //if connection successful
-            if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 inputStream = urlConnection.getInputStream();
                 parsedResponse = createJSONFromStream(inputStream);
             }
@@ -223,6 +220,7 @@ public final class BookQueryUtils {
     /**
      * method will accept an input stream from the http url connection and transform the binary input into
      * string of JSON data
+     *
      * @param inputStream the input stream received when {@link HttpURLConnection} connected to the URL
      * @return a string containing the JSON response
      * @throws IOException if connection get lost
@@ -238,25 +236,24 @@ public final class BookQueryUtils {
             bufferedReader = new BufferedReader(streamReader);
 
             String line = bufferedReader.readLine();
-            while (line != null){
+            while (line != null) {
                 stringBuilder.append(line);
                 line = bufferedReader.readLine();
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
-            if(streamReader != null){
+        } finally {
+            if (streamReader != null) {
                 streamReader.close();
             }
-            if(bufferedReader != null){
+            if (bufferedReader != null) {
                 bufferedReader.close();
             }
         }
         return stringBuilder.toString();
     }
 
-    public static String encodeUrl(String queryParameters){
+    public static String encodeUrl(String queryParameters) {
         StringBuilder builder = new StringBuilder();
 
         builder.append(QUERY_HOME);
@@ -271,8 +268,6 @@ public final class BookQueryUtils {
         }
         return builder.toString();
     }
-
-
 
 
 }
