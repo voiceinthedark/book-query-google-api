@@ -9,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -17,14 +18,16 @@
             android:layout_marginEnd="@dimen/row_item_margin"
             android:layout_marginStart="@dimen/row_item_margin"
             android:layout_weight="0.25"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <ImageView
                 android:id="@+id/row_book_img"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="4dp"
-                android:layout_weight="0.75" />
+                android:layout_weight="0.75"
+                android:contentDescription="@string/image_content_description" />
 
             <android.support.v7.widget.AppCompatRatingBar
                 android:id="@+id/row_book_rating"

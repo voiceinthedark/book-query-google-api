@@ -8,33 +8,33 @@ import java.util.List;
  */
 public class Book {
     //field title book
-    private String mTitle;
+    private final String mTitle;
     //book subtitle, could be null
-    private String mSubtitle;
+    private final String mSubtitle;
     //field authors
-    private List<String> mAuthors;
+    private final List<String> mAuthors;
     //google book id
-    private String mGoogleID;
+    private final String mGoogleID;
     //book publisher
-    private String mPublisher;
+    private final String mPublisher;
     //published date
-    private String mPublishedDate;
+    private final String mPublishedDate;
     //Book description
-    private String mDescription;
+    private final String mDescription;
     //ISBN-13
-    private String mISBN;
+    private final String mISBN;
     //page count
-    private int mPageCount;
+    private final int mPageCount;
     //Book categories
-    private List<String> mCategories;
+    private final List<String> mCategories;
     //Book thumbnail
-    private String mThumbnailSmall;
+    private final String mThumbnailSmall;
     //Book link
-    private String mPreviewLink;
+    private final String mPreviewLink;
     //Book language
-    private String mLanguage;
+    private final String mLanguage;
     //Book rating
-    private double mRating;
+    private final double mRating;
 
     /**
      * private class to associate the Book fields from the builder set fields

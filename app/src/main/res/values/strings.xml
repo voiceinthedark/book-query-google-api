@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Books Query</string>
     <string name="search">Search</string>
+    <string name="image_content_description">thumbnail of the book</string>
 </resources>

@@ -194,8 +194,8 @@ public final class BookQueryUtils {
         if (url == null) {
             return "";
         }
-        HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
+        HttpURLConnection urlConnection;
+        InputStream inputStream;
         String parsedResponse = "";
 
         try {

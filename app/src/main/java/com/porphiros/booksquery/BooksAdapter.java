@@ -1,5 +1,6 @@
 package com.porphiros.booksquery;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -38,6 +39,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
         return new BookHolder(view);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(@NonNull BookHolder holder, int position) {
         Book book = mBooks.get(position);
