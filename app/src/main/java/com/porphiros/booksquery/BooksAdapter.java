@@ -44,13 +44,13 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
         holder.mTitle_Tv.setText(book.getTitle());
         holder.mRatingBar.setRating((float) book.getRating());
         //set the image with Glide library
+
         Glide.with(holder.mThumbnail.getContext())
                 .load(Uri.parse(book.getThumbnailSmall()))
                 .into(holder.mThumbnail);
         Log.i(TAG, "book thumbnail: " + book.getThumbnailSmall());
 
         holder.mSubtitle.setText(book.getSubtitle());
-
 
     }
 

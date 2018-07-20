@@ -14,6 +14,8 @@ import java.util.List;
 public class BookQueryActivity extends AppCompatActivity {
 
     private static final String TAG = BookQueryActivity.class.getSimpleName();
+    private static final String GOOGLE_BOOKS_ADDRESS =
+            "https://www.googleapis.com/books/v1/volumes?q=a+song+of+ice+and+fire&maxResults=12";
 
     private RecyclerView mRecyclerView;
     private List<Book> mBookList;
@@ -31,7 +33,7 @@ public class BookQueryActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         //setup the adapter
-        mBookList = BookQueryUtils.getBooksList();
+        mBookList = BookQueryUtils.getBooksList(GOOGLE_BOOKS_ADDRESS);
         BooksAdapter booksAdapter = new BooksAdapter(this, mBookList);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(booksAdapter);

@@ -14,33 +14,32 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.25"
-            android:orientation="vertical"
+            android:layout_marginEnd="@dimen/row_item_margin"
             android:layout_marginStart="@dimen/row_item_margin"
-            android:layout_marginEnd="@dimen/row_item_margin">
+            android:layout_weight="0.25"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/row_book_img"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.75"
-                 />
+                android:layout_marginTop="4dp"
+                android:layout_weight="0.75" />
 
             <android.support.v7.widget.AppCompatRatingBar
                 android:id="@+id/row_book_rating"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:stepSize="0.1"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                />
+                android:stepSize="0.1" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.75"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginEnd="@dimen/row_item_margin">
+            android:layout_marginEnd="@dimen/row_item_margin"
+            android:layout_weight="0.75"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/row_book_title"
@@ -50,9 +49,9 @@
                 android:fontFamily="@font/cantata_one"
                 android:gravity="center|bottom"
                 android:maxLines="2"
+                android:textColor="@color/colorPrimaryText"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimaryText"
                 tools:text="the title of the book" />
 
             <TextView

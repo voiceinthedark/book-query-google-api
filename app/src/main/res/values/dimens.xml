@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="row_height">116dp</dimen>
+    <dimen name="row_height">128dp</dimen>
     <dimen name="row_item_padding_vertical">8dp</dimen>
     <dimen name="row_item_padding_horizontal">8dp</dimen>
     <dimen name="row_item_margin">16dp</dimen>
