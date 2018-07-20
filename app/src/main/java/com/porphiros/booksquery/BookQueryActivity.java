@@ -1,5 +1,10 @@
 package com.porphiros.booksquery;
 
+
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,14 +16,15 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookQueryActivity extends AppCompatActivity {
+public class BookQueryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Book>> {
 
     private static final String TAG = BookQueryActivity.class.getSimpleName();
+    private static final int LOADER_ID_WEB_QUERY = 11;
     private static final String GOOGLE_BOOKS_ADDRESS =
             "https://www.googleapis.com/books/v1/volumes?q=a+song+of+ice+and+fire&maxResults=12";
 
     private RecyclerView mRecyclerView;
-    private List<Book> mBookList;
+    private BooksAdapter mBooksAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +38,32 @@ public class BookQueryActivity extends AppCompatActivity {
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
-        //setup the adapter
-        mBookList = BookQueryUtils.getBooksList(GOOGLE_BOOKS_ADDRESS);
-        BooksAdapter booksAdapter = new BooksAdapter(this, mBookList);
+        //setup an empty adapter
+        mBooksAdapter = new BooksAdapter(this, new ArrayList<Book>());
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(booksAdapter);
+        //attach the adapter to the recyclerview
+        mRecyclerView.setAdapter(mBooksAdapter);
 
-        for(Book book : mBookList){
-            Log.i(TAG,  book.toString());
-        }
+        //setup the loader
+        getSupportLoaderManager().initLoader(LOADER_ID_WEB_QUERY, null, this);
+    }
 
 
+    @NonNull
+    @Override
+    public android.support.v4.content.Loader<List<Book>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new BooksAsyncLoader(BookQueryActivity.this, GOOGLE_BOOKS_ADDRESS);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull android.support.v4.content.Loader<List<Book>> loader, List<Book> data) {
+        //Update UI by updating the recyler view adapter with the new data
+        mBooksAdapter.updateAdapterData(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull android.support.v4.content.Loader<List<Book>> loader) {
+        //setup with empty adapter
+        mBooksAdapter = new BooksAdapter(this, new ArrayList<Book>());
     }
 }

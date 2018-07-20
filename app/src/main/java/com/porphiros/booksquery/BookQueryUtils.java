@@ -32,7 +32,6 @@ public final class BookQueryUtils {
      * @return a {@link List} of {@link Book} objects
      */
     public static List<Book> getBooksList(String webAddress){
-        //TODO: fix the method
         return extractBooksFromJSON(webAddress);
     }
 

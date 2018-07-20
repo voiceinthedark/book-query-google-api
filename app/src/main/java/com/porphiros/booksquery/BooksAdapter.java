@@ -75,5 +75,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
         }
     }
 
+    /**
+     * helper method to be called once {@link android.content.AsyncTaskLoader} is finished loading
+     * @param data the data received from the background loader
+     */
+    public void updateAdapterData(List<Book> data){
+        mBooks = data;
+        notifyDataSetChanged();
+    }
+
 
 }
