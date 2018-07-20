@@ -57,6 +57,8 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
 
 
 
+
+
         //setup the loader
         getSupportLoaderManager().initLoader(LOADER_ID_WEB_QUERY, null, this);
     }

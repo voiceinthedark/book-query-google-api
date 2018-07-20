@@ -2,6 +2,7 @@ package com.porphiros.booksquery;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatRatingBar;
@@ -42,6 +43,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
     @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(@NonNull BookHolder holder, int position) {
+
         Book book = mBooks.get(position);
         holder.mTitle_Tv.setText(book.getTitle());
         holder.mRatingBar.setRating((float) book.getRating());
@@ -79,7 +81,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
         notifyDataSetChanged();
     }
 
-    public class BookHolder extends RecyclerView.ViewHolder {
+    public class BookHolder extends RecyclerView.ViewHolder /*implements click listener*/
+        implements View.OnClickListener    {
 
         private TextView mTitle_Tv;
         private AppCompatRatingBar mRatingBar;
@@ -92,6 +95,15 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
             mRatingBar = itemView.findViewById(R.id.row_book_rating);
             mThumbnail = itemView.findViewById(R.id.row_book_img);
             mSubtitle = itemView.findViewById(R.id.row_book_subtitle);
+
+            //attach the click listener to this holder view
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = BookDetailActivity.newIntent(mContext, mBooks.get(this.getAdapterPosition()));
+            mContext.startActivity(intent);
         }
     }
 

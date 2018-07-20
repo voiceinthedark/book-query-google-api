@@ -1,12 +1,13 @@
 package com.porphiros.booksquery;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * Class {@link Book} to hold information needed about books fetched from Google Book web API
  */
-public class Book {
+public class Book implements Serializable {
     //field title book
     private final String mTitle;
     //book subtitle, could be null
