@@ -26,6 +26,8 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
 
     private RecyclerView mRecyclerView;
     private BooksAdapter mBooksAdapter;
+    //default empty query
+    private String mQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,8 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
     @NonNull
     @Override
     public android.support.v4.content.Loader<List<Book>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new BooksAsyncLoader(BookQueryActivity.this, GOOGLE_BOOKS_ADDRESS);
+        //return a new instance of our custom loader with the query (empty)
+        return new BooksAsyncLoader(BookQueryActivity.this, mQuery);
     }
 
     @Override
@@ -77,14 +80,20 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
         MenuItem menuItem = menu.findItem(R.id.action_search);
 
         //get our searchview that we set up as a menu item in the menu layout
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        final SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setIconifiedByDefault(false);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //TODO: Implement Search
-                return false;
+                //set the query to the user submission after encoding it
+                mQuery = BookQueryUtils.encodeUrl(query);
+                //restart the loader to make sure the data gets loaded from the web api
+                getSupportLoaderManager()
+                        .restartLoader(LOADER_ID_WEB_QUERY,
+                                null,
+                                BookQueryActivity.this);
+                return true;
             }
 
             @Override

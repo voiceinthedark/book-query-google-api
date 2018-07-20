@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -45,10 +46,19 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
         holder.mRatingBar.setRating((float) book.getRating());
         //set the image with Glide library
 
-        Glide.with(holder.mThumbnail.getContext())
+        //to setup placeholders
+        RequestOptions requestOptions = new RequestOptions();
+        //In case there is no image loaded from the web api
+        requestOptions.placeholder(R.drawable.no_image);
+        requestOptions.error(R.drawable.no_image);
+
+        GlideApp.with(holder.mThumbnail.getContext())
+                .setDefaultRequestOptions(requestOptions)
                 .load(Uri.parse(book.getThumbnailSmall()))
                 .into(holder.mThumbnail);
         Log.i(TAG, "book thumbnail: " + book.getThumbnailSmall());
+
+
 
         holder.mSubtitle.setText(book.getSubtitle());
 

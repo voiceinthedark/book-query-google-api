@@ -12,15 +12,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class BookQueryUtils {
 
     private static final String TAG = "bookquery";
+    private static final String QUERY_HOME = "https://www.googleapis.com/books/v1/volumes?q=";
+    private static final String FIELD_MAX_RESULT = "&maxResults=";
+    /*according to Google Book api max is 40*/
+    private static final int MAX_RESULT = 40;
 
     private BookQueryUtils() {
     }
@@ -66,6 +72,10 @@ public final class BookQueryUtils {
             JSONObject root = new JSONObject(jsonString);
             //find the items array
             JSONArray itemsArray = root.getJSONArray("items");
+            //check for empty items list
+            if(itemsArray == null){
+                return bookList;
+            }
             //loop over the array items
             for (int i = 0; i < itemsArray.length(); i++) {
                 //get the object at location i
@@ -83,38 +93,50 @@ public final class BookQueryUtils {
                 //get authors array
                 List<String> authors = new ArrayList<>();
                 JSONArray authorsArray = volumeInfo.optJSONArray("authors");
-                for (int j = 0; j < authorsArray.length(); j++) {
-                    String author = authorsArray.optString(j);
-                    authors.add(author);
+                //some books are missing authors names!
+                if(authorsArray != null) {
+                    for (int j = 0; j < authorsArray.length(); j++) {
+                        String author = authorsArray.optString(j);
+                        authors.add(author);
 
-                    Log.i(TAG, "author: " + author);
+                        Log.i(TAG, "author: " + author);
+                    }
                 }
                 //get publisher
                 String publisher = volumeInfo.optString("publisher", "");
                 //get publishing date
                 String date = volumeInfo.optString("publishedDate", "");
                 //get description
-                String description = volumeInfo.getString("description");
+                String description = volumeInfo.optString("description", "");
                 //get ISBN array
-                JSONArray isbnArray = volumeInfo.getJSONArray("industryIdentifiers");
-                JSONObject isbnObj = isbnArray.getJSONObject(0);
-                String isbn = isbnObj.optString("identifier", "1111");
+                JSONArray isbnArray = volumeInfo.optJSONArray("industryIdentifiers");
+                String isbn = "";
+                if(isbnArray != null) {
+                    JSONObject isbnObj = isbnArray.optJSONObject(0);
+                    isbn = isbnObj.optString("identifier", "1111");
+                }
                 //get pageCount
                 int pages = volumeInfo.optInt("pageCount", 0);
                 //get categories array
-                JSONArray categoriesArray = volumeInfo.getJSONArray("categories");
+                JSONArray categoriesArray = volumeInfo.optJSONArray("categories");
                 List<String> categories = new ArrayList<>();
-                for (int j = 0; j < categoriesArray.length(); j++) {
-                    String category = categoriesArray.optString(j);
-                    categories.add(category);
+                //some categories are missing from the api
+                if(categoriesArray != null) {
+                    for (int j = 0; j < categoriesArray.length(); j++) {
+                        String category = categoriesArray.optString(j);
+                        categories.add(category);
 
-                    Log.i(TAG, "category: " + category);
+                        Log.i(TAG, "category: " + category);
+                    }
                 }
                 //get averageRating
                 double rating = volumeInfo.optDouble("averageRating", 0.0);
                 //get imageLinks object , get thumbnail string
-                JSONObject imagesObject = volumeInfo.getJSONObject("imageLinks");
-                String imgUrl = imagesObject.optString("smallThumbnail", "");
+                JSONObject imagesObject = volumeInfo.optJSONObject("imageLinks");
+                String imgUrl = "";
+                if(imagesObject != null) {
+                    imgUrl = imagesObject.optString("smallThumbnail", "");
+                }
                 //get language
                 String language = volumeInfo.optString("language", "en");
                 //get previewLink
@@ -232,6 +254,22 @@ public final class BookQueryUtils {
             }
         }
         return stringBuilder.toString();
+    }
+
+    public static String encodeUrl(String queryParameters){
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(QUERY_HOME);
+        try {
+            //encode the query parameters
+            String encodedQuery = URLEncoder.encode(queryParameters, "UTF-8");
+            builder.append(encodedQuery);
+            builder.append(FIELD_MAX_RESULT);
+            builder.append(MAX_RESULT);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return builder.toString();
     }
 
 
