@@ -1,17 +1,18 @@
 package com.porphiros.booksquery;
 
 
-
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +66,33 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
     public void onLoaderReset(@NonNull android.support.v4.content.Loader<List<Book>> loader) {
         //setup with empty adapter
         mBooksAdapter = new BooksAdapter(this, new ArrayList<Book>());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //inflate the menu from our xml file
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+
+        //get reference to the action search
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+
+        //get our searchview that we set up as a menu item in the menu layout
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setIconifiedByDefault(false);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //TODO: Implement Search
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 }
