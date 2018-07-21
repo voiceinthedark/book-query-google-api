@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import java.util.List;
 public class BookDetailActivity extends AppCompatActivity {
 
     private static final String EXTRA_BOOK = "com.porphiros.book";
+    private static final String TAG = BookDetailActivity.class.getSimpleName();
 
     private TextView mTitle;
     private TextView mSubTitle;
@@ -115,5 +117,13 @@ public class BookDetailActivity extends AppCompatActivity {
         return intent;
     }
 
-
+    /**
+     * save recent books list when this activity loses focus or get destroyed
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(TAG, "saving recents book to file");
+        BookRecentUtils.saveRecents(this);
+    }
 }

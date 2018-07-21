@@ -49,7 +49,7 @@ public final class BookRecentUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     public static List<Book> getRecents(Context context) throws IOException {

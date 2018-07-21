@@ -59,7 +59,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
                 .setDefaultRequestOptions(requestOptions)
                 .load(Uri.parse(book.getThumbnailSmall()))
                 .into(holder.mThumbnail);
-        Log.i(TAG, "book thumbnail: " + book.getThumbnailSmall());
 
 
         holder.mSubtitle.setText(book.getSubtitle());
@@ -82,7 +81,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
     }
 
     public class BookHolder extends RecyclerView.ViewHolder /*implements click listener*/
-        implements View.OnClickListener    {
+            implements View.OnClickListener {
 
         private TextView mTitle_Tv;
         private AppCompatRatingBar mRatingBar;
