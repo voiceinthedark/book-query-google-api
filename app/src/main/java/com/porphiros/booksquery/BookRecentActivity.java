@@ -1,5 +1,6 @@
 package com.porphiros.booksquery;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -65,6 +66,10 @@ public class BookRecentActivity extends AppCompatActivity {
 
                 //set the query to the user submission after encoding it
                 mQuery = BookQueryUtils.encodeUrl(query);
+                //start intent to query
+                Intent intent = BookQueryActivity
+                        .newIntent(BookRecentActivity.this, mQuery);
+                startActivity(intent);
 
                 return true;
             }
@@ -76,5 +81,17 @@ public class BookRecentActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            mBooksRecentAdapter =
+                    new BooksRecentAdapter(this,
+                            BookRecentUtils.getRecents(this));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -117,12 +117,20 @@ public class BookDetailActivity extends AppCompatActivity {
         return intent;
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //saving data here seems to trigger twice occasionally
+
+    }
+
     /**
      * save recent books list when this activity loses focus or get destroyed
      */
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         Log.i(TAG, "saving recents book to file");
         BookRecentUtils.saveRecents(this);
     }

@@ -2,6 +2,7 @@ package com.porphiros.booksquery;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,8 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
     private static final int LOADER_ID_WEB_QUERY = 11;
     private static final String GOOGLE_BOOKS_ADDRESS =
             "https://www.googleapis.com/books/v1/volumes?q=a+song+of+ice+and+fire&maxResults=12";
+    //setup Id of the intent extra
+    private static final String EXTRA_QUERY = "com.porphiros.query";
 
     private RecyclerView mRecyclerView;
     private BooksAdapter mBooksAdapter;
@@ -42,6 +46,18 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_query);
+
+        /**
+         * receive the query from the {@link BookRecentActivity} intent
+         */
+        mQuery = getIntent().getStringExtra(EXTRA_QUERY);
+        //if the query string not empty, start the loader
+        if(!TextUtils.isEmpty(mQuery)){
+            getSupportLoaderManager()
+                    .initLoader(LOADER_ID_WEB_QUERY,
+                            null,
+                            BookQueryActivity.this);
+        }
 
         //setup the empty view
         mEmptyView = findViewById(R.id.empty_view);
@@ -109,7 +125,6 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoaderReset(@NonNull android.support.v4.content.Loader<List<Book>> loader) {
-        Log.i(TAG, "Loader reset ");
         //setup with empty adapter
         mBooksAdapter = new BooksAdapter(this, new ArrayList<Book>());
     }
@@ -150,5 +165,17 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * explicit intent sent from {@link BookRecentActivity}
+     * @param context the {@link BookRecentActivity} context
+     * @param query the query search
+     * @return an Intent back to {@link BookRecentActivity}
+     */
+    public static Intent newIntent(Context context, String query){
+        Intent intent = new Intent(context, BookQueryActivity.class);
+        intent.putExtra(EXTRA_QUERY, query);
+        return intent;
     }
 }

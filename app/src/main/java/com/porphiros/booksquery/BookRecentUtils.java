@@ -1,6 +1,7 @@
 package com.porphiros.booksquery;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 
@@ -13,11 +14,15 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * Class responsible of handling the control of the Recent Books Activity {@link BookRecentActivity}
  * and writing and reading from mobile storage
  */
 public final class BookRecentUtils {
+
+    private static final String TAG = BookRecentUtils.class.getSimpleName();
 
     /**
      * using {@link org.apache.commons.collections4.queue.CircularFifoQueue} we place a 10 max
@@ -36,6 +41,7 @@ public final class BookRecentUtils {
     }
 
     public static boolean saveRecents(Context context) {
+        Log.i(TAG, "saving file- Queue size: " + BookRecentUtils.getQueueSize());
         try {
             OutputStream outputStream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
             ObjectOutputStream bookOutStream = new ObjectOutputStream(outputStream);
@@ -43,8 +49,11 @@ public final class BookRecentUtils {
             for (int i = 0; i < mBooksRecentQueue.size(); i++) {
                 bookOutStream.writeObject(mBooksRecentQueue.get(i));
             }
+            //close the streams
             bookOutStream.close();
             outputStream.close();
+            //add the queue from file
+            //mBooksRecentQueue.addAll(BookRecentUtils.getRecents(context));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,9 +61,18 @@ public final class BookRecentUtils {
         return true;
     }
 
+    /**
+     * methods that query the local file and retrieve saved book objects of the recent viewed list
+     * @param context application context
+     * @return a {@link List<Book>} objects
+     * @throws IOException throws an {@link IOException} if it failed to open the file
+     */
     public static List<Book> getRecents(Context context) throws IOException {
         InputStream inputStream = null;
         ObjectInputStream bookInputStream = null;
+        //TODO: needs more testing for bugs
+        //clear the queue first
+        mBooksRecentQueue.clear();
         try {
             inputStream = context.openFileInput(FILENAME);
             if (inputStream != null) {
@@ -81,10 +99,15 @@ public final class BookRecentUtils {
             e.printStackTrace();
         }
 
+        Log.i(TAG, "loading file - Queue size: " + BookRecentUtils.getQueueSize());
 
         return new ArrayList<>(mBooksRecentQueue);
     }
 
+    /**
+     * helper methods for debuging
+     * @return size of the circular fixed queue {@link CircularFifoQueue}
+     */
     public static int getQueueSize(){
         return mBooksRecentQueue.size();
     }

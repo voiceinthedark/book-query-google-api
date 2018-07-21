@@ -15,7 +15,12 @@
         android:roundIcon="@drawable/icon_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BookQueryActivity">
+        <activity android:name=".BookQueryActivity"
+            android:parentActivityName=".BookRecentActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BookRecentActivity" />
 
         </activity>
 
