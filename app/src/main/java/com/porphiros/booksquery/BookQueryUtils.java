@@ -199,14 +199,19 @@ public final class BookQueryUtils {
         String parsedResponse = "";
 
         try {
+            //Start a URL connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setConnectTimeout(15000);
+            //We want to fetch data through REST GET method
             urlConnection.setRequestMethod("GET");
             urlConnection.setReadTimeout(10000);
+            //connect to the web api
             urlConnection.connect();
             //if connection successful
-            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            if (urlConnection.getResponseCode() == /*200*/ HttpURLConnection.HTTP_OK) {
+                //receive an input stream
                 inputStream = urlConnection.getInputStream();
+                //transform stream binary data to readable string
                 parsedResponse = createJSONFromStream(inputStream);
             }
 
@@ -232,10 +237,19 @@ public final class BookQueryUtils {
         BufferedReader bufferedReader = null;
 
         try {
+            /**
+             * open an {@link InputStreamReader} on the {@link InputStream}
+             */
             streamReader = new InputStreamReader(inputStream);
+            /**
+             * wrap the {@link InputStreamReader} inside a {@link BufferedReader} for
+             * more efficiency
+             */
             bufferedReader = new BufferedReader(streamReader);
 
+            //receive the first line from the {@link BufferedReader}
             String line = bufferedReader.readLine();
+            //while not End of Stream keep going through the buffered reader line by line
             while (line != null) {
                 stringBuilder.append(line);
                 line = bufferedReader.readLine();
@@ -243,6 +257,7 @@ public final class BookQueryUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            //close the streams
             if (streamReader != null) {
                 streamReader.close();
             }
@@ -250,9 +265,15 @@ public final class BookQueryUtils {
                 bufferedReader.close();
             }
         }
+        //returns a String representation of the response
         return stringBuilder.toString();
     }
 
+    /**
+     * Helper method to encode a URL into valid format using java's {@link URLEncoder}
+     * @param queryParameters the user's search input
+     * @return a valid and well formed {@link URL} string
+     */
     public static String encodeUrl(String queryParameters) {
         StringBuilder builder = new StringBuilder();
 
@@ -262,7 +283,7 @@ public final class BookQueryUtils {
             String encodedQuery = URLEncoder.encode(queryParameters, "UTF-8");
             builder.append(encodedQuery);
             builder.append(FIELD_MAX_RESULT);
-            builder.append(MAX_RESULT);
+            builder.append(MAX_RESULT); //40 max
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

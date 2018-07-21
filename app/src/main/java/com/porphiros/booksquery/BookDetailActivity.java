@@ -7,6 +7,8 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +24,11 @@ public class BookDetailActivity extends AppCompatActivity {
     private TextView mPublisher;
     private TextView mPublishDate;
     private ImageView mImage;
+    private TextView mDescription;
+    private Button mPreviewSample;
+    private TextView mPages;
+    private TextView mIsbn;
+    private TextView mCategories;
 
     private Book mBook;
 
@@ -37,6 +44,11 @@ public class BookDetailActivity extends AppCompatActivity {
         mPublisher = findViewById(R.id.detail_publisher);
         mPublishDate = findViewById(R.id.detail_date);
         mImage = findViewById(R.id.detail_image);
+        mDescription = findViewById(R.id.detail_description);
+        mPreviewSample = findViewById(R.id.detail_preview);
+        mPages = findViewById(R.id.detail_pages);
+        mIsbn = findViewById(R.id.detail_isbn);
+        mCategories = findViewById(R.id.detail_category);
 
         //get teh book object from intent
         mBook = (Book) getIntent().getSerializableExtra(EXTRA_BOOK);
@@ -63,6 +75,33 @@ public class BookDetailActivity extends AppCompatActivity {
                 .placeholder(R.drawable.no_image)
                 .error(R.drawable.no_image)
                 .into(mImage);
+
+        //set description
+        mDescription.setText(mBook.getDescription());
+
+        //make the preview sample button redirect to Google Books page
+        mPreviewSample.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mBook.getPreviewLink()));
+                startActivity(intent);
+            }
+        });
+
+        //set the pages
+        mPages.setText(String.valueOf(mBook.getPageCount()));
+        mIsbn.setText(mBook.getISBN());
+
+        //Setup the categories
+        List<String> categoriesList = mBook.getCategories();
+        String categories = "";
+        for(String category : categoriesList){
+            categories += category + ", ";
+        }
+        if(categories.length() >= 2){
+            categories = categories.substring(0, categories.length() - 2);
+        }
+        mCategories.setText(categories);
 
         //set the title of the activity as the book name
         setTitle(mBook.getTitle());
