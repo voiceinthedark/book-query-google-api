@@ -100,9 +100,17 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookHolder> 
             itemView.setOnClickListener(this);
         }
 
+        //Open a details view activity
         @Override
         public void onClick(View v) {
-            Intent intent = BookDetailActivity.newIntent(mContext, mBooks.get(this.getAdapterPosition()));
+            //Add book to recents
+            Book book = mBooks.get(this.getAdapterPosition());
+            BookRecentUtils.addBookToQueue(book);
+
+            Log.i(TAG, "recent Queue Size:" + BookRecentUtils.getQueueSize());
+
+            //start intent
+            Intent intent = BookDetailActivity.newIntent(mContext, book);
             mContext.startActivity(intent);
         }
     }
