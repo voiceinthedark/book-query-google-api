@@ -1,14 +1,17 @@
 package com.porphiros.booksquery;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class {@link Book} to hold information needed about books fetched from Google Book web API
  */
-public class Book implements Serializable {
+public class Book implements Serializable, Comparable<Book> {
     //field title book
     private final String mTitle;
     //book subtitle, could be null
@@ -58,6 +61,8 @@ public class Book implements Serializable {
         mLanguage = builder.mLanguage;
         mRating = builder.mRating;
     }
+
+
 
     public static class Builder{ /*Start of inner builder class*/
         /*required fields*/
@@ -306,5 +311,52 @@ public class Book implements Serializable {
                 ", mLanguage='" + mLanguage + '\'' + "\n" +
                 ", mRating=" + mRating + "\n" +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        Book book = (Book) o;
+        return getPageCount() == book.getPageCount() &&
+                Double.compare(book.getRating(), getRating()) == 0 &&
+                Objects.equals(getTitle(), book.getTitle()) &&
+                Objects.equals(getSubtitle(), book.getSubtitle()) &&
+                Objects.equals(getAuthors(), book.getAuthors()) &&
+                Objects.equals(getGoogleID(), book.getGoogleID()) &&
+                Objects.equals(getPublisher(), book.getPublisher()) &&
+                Objects.equals(getPublishedDate(), book.getPublishedDate()) &&
+                Objects.equals(getDescription(), book.getDescription()) &&
+                Objects.equals(getISBN(), book.getISBN()) &&
+                Objects.equals(getCategories(), book.getCategories()) &&
+                Objects.equals(getThumbnailSmall(), book.getThumbnailSmall()) &&
+                Objects.equals(getPreviewLink(), book.getPreviewLink()) &&
+                Objects.equals(getLanguage(), book.getLanguage());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getTitle(),
+                getSubtitle(),
+                getAuthors(),
+                getGoogleID(),
+                getPublisher(),
+                getPublishedDate(),
+                getDescription(),
+                getISBN(),
+                getPageCount(),
+                getCategories(),
+                getThumbnailSmall(),
+                getPreviewLink(),
+                getLanguage(),
+                getRating());
+    }
+
+    @Override
+    public int compareTo(@NonNull Book o) {
+        return this.hashCode() == o.hashCode() ? 0
+                : this.hashCode() < o.hashCode() ? -1
+                : 1;
     }
 }

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * Class responsible of handling the control of the Recent Books Activity {@link BookRecentActivity}
  * and writing and reading from mobile storage
@@ -37,7 +36,7 @@ public final class BookRecentUtils {
     }
 
     public static boolean addBookToQueue(Book book) {
-        return book != null && mBooksRecentQueue.offer(book);
+        return !mBooksRecentQueue.contains(book) && book != null && mBooksRecentQueue.offer(book);
     }
 
     public static boolean saveRecents(Context context) {
@@ -61,6 +60,7 @@ public final class BookRecentUtils {
 
     /**
      * methods that query the local file and retrieve saved book objects of the recent viewed list
+     *
      * @param context application context
      * @return a {@link List<Book>} objects
      * @throws IOException throws an {@link IOException} if it failed to open the file
@@ -104,9 +104,10 @@ public final class BookRecentUtils {
 
     /**
      * helper methods for debuging
+     *
      * @return size of the circular fixed queue {@link CircularFifoQueue}
      */
-    public static int getQueueSize(){
+    public static int getQueueSize() {
         return mBooksRecentQueue.size();
     }
 
