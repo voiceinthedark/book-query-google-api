@@ -52,8 +52,6 @@ public final class BookRecentUtils {
             //close the streams
             bookOutStream.close();
             outputStream.close();
-            //add the queue from file
-            //mBooksRecentQueue.addAll(BookRecentUtils.getRecents(context));
 
         } catch (IOException e) {
             e.printStackTrace();

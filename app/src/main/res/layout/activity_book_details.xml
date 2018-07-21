@@ -35,7 +35,7 @@
         android:maxLines="4"
         android:text="TextView"
         android:textColor="@color/colorPrimaryText"
-        android:textSize="24sp"
+        android:textSize="21sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/detail_image"
@@ -54,7 +54,7 @@
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/colorSecondaryText"
-        android:textSize="18sp"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/detail_image"
         app:layout_constraintTop_toBottomOf="@+id/detail_title" />
@@ -81,39 +81,39 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Publisher"
-        app:layout_constraintStart_toEndOf="@+id/detail_image"
-        app:layout_constraintTop_toBottomOf="@+id/detail_authors"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_image"
         tools:text="Publisher" />
 
     <TextView
         android:id="@+id/detail_publisher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:maxLines="2"
         android:text="TextView"
         android:textStyle="bold"
-        android:maxLines="2"
         app:layout_constraintStart_toEndOf="@+id/textv1"
-        app:layout_constraintTop_toBottomOf="@+id/detail_authors" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_image" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:maxLines="2"
         android:text="Published on"
-        app:layout_constraintStart_toEndOf="@+id/detail_image"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textv1" />
 
     <TextView
         android:id="@+id/detail_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
         android:text="TextView"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/textView6"
@@ -125,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:fontFamily="@font/caudex_italic"
         android:maxLines="13"
@@ -134,7 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detail_image" />
+        app:layout_constraintTop_toBottomOf="@+id/detail_date" />
 
     <Button
         android:id="@+id/detail_preview"
