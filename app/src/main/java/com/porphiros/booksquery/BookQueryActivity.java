@@ -149,7 +149,9 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
                 mRecyclerView.setVisibility(View.GONE);
 
                 //set the query to the user submission after encoding it
-                mQuery = BookQueryUtils.encodeUrl(query);
+                QueryBuilder queryBuilder = new QueryBuilder(BookQueryActivity.this);
+                mQuery = queryBuilder.encodeUrl(query);
+
                 //restart the loader to make sure the data gets loaded from the web api
                 getSupportLoaderManager()
                         .restartLoader(LOADER_ID_WEB_QUERY,
@@ -165,6 +167,18 @@ public class BookQueryActivity extends AppCompatActivity implements LoaderManage
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(
+                        BookQueryActivity.this, BookSettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+        }
+        return false;
     }
 
     /**

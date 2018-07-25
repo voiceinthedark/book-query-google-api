@@ -1,5 +1,8 @@
 package com.porphiros.booksquery;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -22,13 +25,11 @@ import java.util.List;
 public final class BookQueryUtils {
 
     private static final String TAG = "bookquery";
-    private static final String QUERY_HOME = "https://www.googleapis.com/books/v1/volumes?q=";
-    private static final String FIELD_MAX_RESULT = "&maxResults=";
-    /*according to Google Book api max is 40*/
-    private static final int MAX_RESULT = 40;
+
 
     private BookQueryUtils() {
     }
+
 
     /**
      * main method of the {@link BookQueryUtils} class, that will extract a {@link Book} objects
@@ -269,26 +270,7 @@ public final class BookQueryUtils {
         return stringBuilder.toString();
     }
 
-    /**
-     * Helper method to encode a URL into valid format using java's {@link URLEncoder}
-     * @param queryParameters the user's search input
-     * @return a valid and well formed {@link URL} string
-     */
-    public static String encodeUrl(String queryParameters) {
-        StringBuilder builder = new StringBuilder();
 
-        builder.append(QUERY_HOME);
-        try {
-            //encode the query parameters
-            String encodedQuery = URLEncoder.encode(queryParameters, "UTF-8");
-            builder.append(encodedQuery);
-            builder.append(FIELD_MAX_RESULT);
-            builder.append(MAX_RESULT); //40 max
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return builder.toString();
-    }
 
 
 }

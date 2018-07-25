@@ -37,7 +37,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BookSettingsActivity"></activity>
+        <activity android:name=".BookSettingsActivity"
+            android:parentActivityName=".BookRecentActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BookRecentActivity" />
+
+        </activity>
     </application>
 
 </manifest>

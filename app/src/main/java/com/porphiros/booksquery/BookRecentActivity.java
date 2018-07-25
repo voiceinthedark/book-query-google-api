@@ -65,7 +65,8 @@ public class BookRecentActivity extends AppCompatActivity {
 
 
                 //set the query to the user submission after encoding it
-                mQuery = BookQueryUtils.encodeUrl(query);
+                QueryBuilder queryBuilder = new QueryBuilder(BookRecentActivity.this);
+                mQuery = queryBuilder.encodeUrl(query);
                 //start intent to query
                 Intent intent = BookQueryActivity
                         .newIntent(BookRecentActivity.this, mQuery);
@@ -81,6 +82,18 @@ public class BookRecentActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(
+                        BookRecentActivity.this, BookSettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+        }
+        return false;
     }
 
     @Override
