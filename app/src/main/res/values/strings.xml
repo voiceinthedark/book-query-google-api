@@ -3,4 +3,16 @@
     <string name="search">Search</string>
     <string name="image_content_description">thumbnail of the book</string>
     <string name="no_internet">no internet!</string>
+
+    <!--Settings for limit -->
+    <string name="settings_limit_label">Limit query</string>
+    <string name="settings_limit_key" translatable="false">settings_limit</string>
+    <string name="settings_limit_default" translatable="false">40</string>
+
+    <!-- Settings for ordering the results-->
+    <string name="settings_order_label">Order results by</string>
+    <string name="settings_order_key" translatable="false">order_by</string>
+    <string name="settings_order_default" translatable="false">relevance</string>
+
+
 </resources>

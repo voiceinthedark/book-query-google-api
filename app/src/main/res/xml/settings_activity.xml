@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:title="@string/settings_limit_label"
+        android:key="@string/settings_limit_key"
+        android:defaultValue="@string/settings_limit_default"
+        android:inputType="number"
+        />
+
+    <ListPreference
+        android:title="@string/settings_order_label"
+        android:defaultValue="@string/settings_order_default"
+        android:key="@string/settings_order_key"
+        android:entries="@array/settings_order_entries"
+        android:entryValues="@array/settings_order_values"
+        />
+
+</PreferenceScreen>
