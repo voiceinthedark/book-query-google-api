@@ -15,5 +15,6 @@
     <string name="settings_order_default" translatable="false">relevance</string>
     <string name="settings">Settings</string>
 
+    <string name="recent_activity_title">Recently Viewed Books</string>
 
 </resources>
