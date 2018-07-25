@@ -1,6 +1,7 @@
 package com.porphiros.booksquery;
 
 import android.content.SharedPreferences;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -46,7 +47,18 @@ public class BookSettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
-            return false;
+            String value = newValue.toString();
+            if(preference instanceof ListPreference){
+                ListPreference listPreference = (ListPreference) preference;
+                int prefIndex = listPreference.findIndexOfValue(value);
+                if (prefIndex >= 0) {
+                    CharSequence[] labels = listPreference.getEntries();
+                    preference.setSummary(labels[prefIndex]);
+                }
+            }else {
+                preference.setSummary(value);
+            }
+            return true;
         }
     }
 }

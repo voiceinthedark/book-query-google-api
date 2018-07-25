@@ -13,6 +13,7 @@
     <string name="settings_order_label">Order results by</string>
     <string name="settings_order_key" translatable="false">order_by</string>
     <string name="settings_order_default" translatable="false">relevance</string>
+    <string name="settings">Settings</string>
 
 
 </resources>
