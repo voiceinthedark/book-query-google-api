@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 This project relies on 2 libraries; the Glide Api and the Apache commons collections.
 Inside build.gradle:
 
-```
+```gradle
 dependencies {
     ...
     implementation 'com.github.bumptech.glide:glide:4.7.1'
@@ -37,7 +37,7 @@ git clone https://github.com/voiceinthedark/book-query-google-api.git
 
 In order to provide an API key to the google book api; I've included a public constructor to the class QueryBuilder that accepts a string key
 
-```
+``` java
 public QueryBuilder(Context context, String apiKey){
         mContext = context;
         mApiKey = apiKey;
